@@ -1,0 +1,17 @@
+version: "3.7"
+
+name: testing-docker-compose-envvars
+services:
+  testing-docker-compose-envvars-serv:
+    image: "ubuntu"
+    env_file:
+      - ./file1.env
+      - ./file2.env
+    environment:
+      - TEST_VAR_ENVATTRIBUTE=env_attribute
+      - TEST_OVERRIDE_ATTRIBUTE=${TEST_OVERRIDE_ATTRIBUTE:-using_env_attribute}
+      - TEST_ENVATTRIBUTE_CHECK_BASEENVFILE=${TEST_VAR_BASEENVFILE:-not_found}
+      - TEST_ENVATTRIBUTE_CHECK_CLIENVFILE=${TEST_VAR_CLIENVFILE:-not_found}
+      - TEST_ENVATTRIBUTE_CHECK_ENVFILE1=${TEST_VAR_ENVFILE1:-not_found}
+      - TEST_ENVATTRIBUTE_CHECK_ENVFILE2=${TEST_VAR_ENVFILE2:-not_found}
+    command: "bash -c 'env | grep TEST'"
